@@ -13,3 +13,5 @@ DOI for the repository: 10.5281/zenodo.1491206
 https://github.com/wspr/matlab-euler-angles
 感谢 Robertson ！！
 ### 使用前请先将上述代码库中的相关函数添加入matlab路径 
+
+可直接安装.exe文件，可将依赖的函数一同获得。
