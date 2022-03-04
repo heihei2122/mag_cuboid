@@ -1,3 +1,4 @@
+# 开发者： HUST MSE ddc ZR_heihei; HUST MSE ddc CH_panpan
 # mag_cuboid
  a gui or app based matlab to calculate B  force stiffness  计算立方磁体的计算
  
