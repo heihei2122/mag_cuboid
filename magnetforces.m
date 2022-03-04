@@ -288,6 +288,7 @@ end
   function draw_everything(ip,forces_out)
     
     figure(ip.Results.figure);
+    
     fig_was_held_bool = ishold;
     if ~fig_was_held_bool, hold on; end
     
@@ -302,7 +303,7 @@ end
     
     % draw path
     if ip.Results.drawpath || iscell(ip.Results.markpath)
-      plot3(displ(1,:),displ(2,:),displ(3,:),ip.Results.drawpathopt{:})
+      plot3(displ(1,:),displ(2,:),displ(3,:),ip.Results.drawpathopt{:});
     end
     
     % draw force
@@ -323,12 +324,13 @@ end
       M = min(Ndispl,ip.Results.markpathN);
       Mind = round(linspace(1,Ndispl,M));
       
-      plot3(displ(1,Mind(1)),      displ(2,Mind(1))      ,displ(3,Mind(1))      ,'linestyle','none','marker',markpath{1},ip.Results.markpathopt{:})
-      plot3(displ(1,Mind(2:end-1)),displ(2,Mind(2:end-1)),displ(3,Mind(2:end-1)),'linestyle','none','marker',markpath{2},ip.Results.markpathopt{:})
-      plot3(displ(1,Mind(end)),    displ(2,Mind(end))    ,displ(3,Mind(end))    ,'linestyle','none','marker',markpath{3},ip.Results.markpathopt{:})
+      plot3(displ(1,Mind(1)),      displ(2,Mind(1))      ,displ(3,Mind(1))      ,'linestyle','none','marker',markpath{1},ip.Results.markpathopt{:});
+      plot3(displ(1,Mind(2:end-1)),displ(2,Mind(2:end-1)),displ(3,Mind(2:end-1)),'linestyle','none','marker',markpath{2},ip.Results.markpathopt{:});
+      plot3(displ(1,Mind(end)),    displ(2,Mind(end))    ,displ(3,Mind(end))    ,'linestyle','none','marker',markpath{3},ip.Results.markpathopt{:});
     end
       
     if ~fig_was_held_bool, hold off; end
+    axis equal
     
   end
 

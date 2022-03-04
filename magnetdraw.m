@@ -1,4 +1,4 @@
-function hand=magnetdraw(magnet,arg_pos,varargin)
+ function hand=magnetdraw(magnet,arg_pos,varargin)
 % MAGNETDRAW(mag,pos) Draws a magnet in 3D.
 %
 % # Mandatory arguments
@@ -159,45 +159,118 @@ end
 
 %%
 
-  function hand=draw_cyl(magnet,pos,rot)
-    
-    pos = transpose(pos(:));
-    hand=zeros(1,4);
-    r = magnet.dim(1);
-    h = magnet.dim(2);
-    n = 50;
-    
-    [X,Y,Z] = cylinder(r,n);
-    vrtc = [X(:), Y(:), h*(Z(:)-0.5)];
+    function hand=draw_cyl(magnet,pos,rot)
+        
+        pos = transpose(pos(:));
+        hand=zeros(8,1);
+        if numel(magnet.dim) == 2
+            r = magnet.dim(1);
+            h = magnet.dim(2);
+            n = 50;
+            
+            [X,Y,Z] = cylinder(r,n);
+            vrtc = [X(:), Y(:), h*(Z(:)-0.5)];
+            
+            faces = nan(n,4);
+            for iii = 1:n
+                faces(iii,:) = 2*(iii-1)+[1 3 4 2];
+            end
+            
+            % Sides
+            [vrtc_p, faces_p] = split_patches(vrtc,faces,+magnet.magdir);
+            [vrtc_n, faces_n] = split_patches(vrtc,faces,-magnet.magdir);
+            
+            vrtc_p = transpose(magnet.rotation*transpose(vrtc_p) + magnet.position);
+            vrtc_n = transpose(magnet.rotation*transpose(vrtc_n) + magnet.position);
+            
+            hand(1)=patch(ax,'Faces',faces_p,'Vertices',vrtc_p+pos,patch_opts3{:});
+            hand(2)=patch(ax,'Faces',faces_n,'Vertices',vrtc_n+pos,patch_opts4{:});
+            
+            % Bottom & Top cover
+            faces = [1:2:2*(n+1);2:2:2*(n+1)];
+            [vrtc_p, faces_p] = split_patches(vrtc,faces,+magnet.magdir);
+            [vrtc_n, faces_n] = split_patches(vrtc,faces,-magnet.magdir);
+            
+            vrtc_p = transpose(magnet.rotation*transpose(vrtc_p) + magnet.position);
+            vrtc_n = transpose(magnet.rotation*transpose(vrtc_n) + magnet.position);
+            
+            hand(3)=patch(ax,'Faces',faces_p,'Vertices',vrtc_p+pos,patch_opts1{:});
+            hand(4)=patch(ax,'Faces',faces_n,'Vertices',vrtc_n+pos,patch_opts2{:});
+            for iii=5:8
+                hand(iii)=patch(ax,'Faces',faces_n,'Vertices',vrtc_n+pos,patch_opts2{:});
+            end
+            
+        elseif numel(magnet.dim) == 3
+            if ~magnet.iscoil
+                magnet.isring = true;
+            else
+                magnet.isring = false;
+            end
+            rI = magnet.dim(1);
+            rO = magnet.dim(2);
+            h = magnet.dim(3);
+            n = 50;
+            
+            [X1,Y1,Z1] = cylinder(rI,n);
+            [X2,Y2,Z2] = cylinder(rO,n);
+            vrtc1 = [X1(:), Y1(:), h*(Z1(:)-0.5)];
+            vrtc2 = [X2(:), Y2(:), h*(Z2(:)-0.5)];
 
-    faces = nan(n,4);
-    for iii = 1:n
-      faces(iii,:) = 2*(iii-1)+[1 3 4 2];
+            
+            faces = nan(n,4);
+            for iii = 1:n
+                faces(iii,:) = 2*(iii-1)+[1 3 4 2];
+            end
+            
+            % Sides
+            [vrtc1_p, faces_p] = split_patches(vrtc1,faces,+magnet.magdir);
+            [vrtc1_n, faces_n] = split_patches(vrtc1,faces,-magnet.magdir);
+            
+            vrtc1_p = transpose(magnet.rotation*transpose(vrtc1_p) + magnet.position);
+            vrtc1_n = transpose(magnet.rotation*transpose(vrtc1_n) + magnet.position);
+            
+            hand(1)=patch(ax,'Faces',faces_p,'Vertices',vrtc1_p+pos,patch_opts3{:});
+            hand(2)=patch(ax,'Faces',faces_n,'Vertices',vrtc1_n+pos,patch_opts4{:});
+           
+            [vrtc2_p, faces_p] = split_patches(vrtc2,faces,+magnet.magdir);
+            [vrtc2_n, faces_n] = split_patches(vrtc2,faces,-magnet.magdir);
+            
+            vrtc2_p = transpose(magnet.rotation*transpose(vrtc2_p) + magnet.position);
+            vrtc2_n = transpose(magnet.rotation*transpose(vrtc2_n) + magnet.position);
+            
+            hand(3)=patch(ax,'Faces',faces_p,'Vertices',vrtc2_p+pos,patch_opts3{:});
+            hand(4)=patch(ax,'Faces',faces_n,'Vertices',vrtc2_n+pos,patch_opts4{:});
+            
+            % Bottom & Top cover
+            for t = 1:2*n
+                faces(t,:) = t-1+[1 2*n+3 2*n+5 3];
+            end
+            vrtc=[vrtc1;vrtc2];
+            [vrtc_p, faces_p] = split_patches(vrtc,faces,+magnet.magdir);
+            [vrtc_n, faces_n] = split_patches(vrtc,faces,-magnet.magdir);
+            
+            vrtc_p = transpose(magnet.rotation*transpose(vrtc_p) + magnet.position);
+            vrtc_n = transpose(magnet.rotation*transpose(vrtc_n) + magnet.position);
+           
+            hand(5)=patch(ax,'Faces',faces_p,'Vertices',vrtc_p+pos,patch_opts3{:});
+            hand(6)=patch(ax,'Faces',faces_n,'Vertices',vrtc_n+pos,patch_opts4{:});
+            
+            faces = [1:2:2*(n+1);2:2:2*(n+1);(2*(n+1)+1):2:4*(n+1);(2*(n+1)+2):2:4*(n+1)];
+            
+            [vrtc_p, faces_p] = split_patches(vrtc,faces,+magnet.magdir);
+            [vrtc_n, faces_n] = split_patches(vrtc,faces,-magnet.magdir);
+            
+            vrtc_p = transpose(magnet.rotation*transpose(vrtc_p) + magnet.position);
+            vrtc_n = transpose(magnet.rotation*transpose(vrtc_n) + magnet.position);
+           
+            hand(7)=patch(ax,'Faces',faces_p,'Vertices',vrtc_p+pos,patch_opts1{:},'FaceColor','none');
+            hand(8)=patch(ax,'Faces',faces_n,'Vertices',vrtc_n+pos,patch_opts2{:},'FaceColor','none');
+         
+        end
+        
+        
+        
     end
-    
-    % Sides
-    [vrtc_p, faces_p] = split_patches(vrtc,faces,+magnet.magdir);
-    [vrtc_n, faces_n] = split_patches(vrtc,faces,-magnet.magdir);
-    
-    vrtc_p = transpose(magnet.rotation*transpose(vrtc_p) + magnet.position);
-    vrtc_n = transpose(magnet.rotation*transpose(vrtc_n) + magnet.position);
-
-    hand(1)=patch(ax,'Faces',faces_p,'Vertices',vrtc_p+pos,patch_opts3{:});
-    hand(2)=patch(ax,'Faces',faces_n,'Vertices',vrtc_n+pos,patch_opts4{:});
-    
-    % Bottom & Top cover
-    faces = [1:2:2*(n+1);2:2:2*(n+1)];
-    [vrtc_p, faces_p] = split_patches(vrtc,faces,+magnet.magdir);
-    [vrtc_n, faces_n] = split_patches(vrtc,faces,-magnet.magdir);
-
-    vrtc_p = transpose(magnet.rotation*transpose(vrtc_p) + magnet.position);
-    vrtc_n = transpose(magnet.rotation*transpose(vrtc_n) + magnet.position);
-
-    hand(3)=patch(ax,'Faces',faces_p,'Vertices',vrtc_p+pos,patch_opts1{:});
-    hand(4)=patch(ax,'Faces',faces_n,'Vertices',vrtc_n+pos,patch_opts2{:});
-    
-    
-  end
 
 end
 
@@ -321,7 +394,7 @@ function p = plot_line(x,y,varargin)
 h = plot3(ax,[x(1) y(1)],[x(2) y(2)],[x(3) y(3)],varargin{:});
 
 if nargout > 0 
-  p = h 
+  p = h ;
 end
 
 end

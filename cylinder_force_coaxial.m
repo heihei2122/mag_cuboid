@@ -11,7 +11,7 @@
 % OUTPUTS
 %    force = axial force on the second magnet [N]
 %
-% Code is vectorised.
+% Code is vectorised.z
 
 function force_axial = cylinder_force_coaxial(J1,J2,r1,r2,h1,h2,displ_input)
 

@@ -1,7 +1,7 @@
 <deployment-project plugin="plugin.apptool" plugin-version="1.0">
-  <configuration build-checksum="745388813" file="D:\hust_item\定制磁场\magcode_app\mag_cuboid\magcode.prj" location="D:\hust_item\定制磁场\magcode_app\mag_cuboid" name="magcode" target="target.mlapps" target-name="打包为 App">
+  <configuration build-checksum="2934173976" file="D:\mag_cuboid-main\mag_cuboid-main\magcode.prj" location="D:\mag_cuboid-main\mag_cuboid-main" name="magcode" target="target.mlapps" target-name="打包为 App">
     <param.appname>magcode</param.appname>
-    <param.authnamewatermark>ZR</param.authnamewatermark>
+    <param.authnamewatermark>CH</param.authnamewatermark>
     <param.email />
     <param.company />
     <param.icon>${PROJECT_ROOT}\magcode_resources\icon_24.png</param.icon>
@@ -11,9 +11,9 @@
       <file>${PROJECT_ROOT}\magcode_resources\icon_16.png</file>
     </param.icons>
     <param.summary />
-    <param.description />
-    <param.screenshot>C:\Users\zhou\AppData\Local\Temp\tpe07531f2_241f_4172_8954_eeaeeb757fe9.png</param.screenshot>
-    <param.version>2.0</param.version>
+    <param.description>添加了计算圆环磁体和圆柱磁体的功能</param.description>
+    <param.screenshot>C:\Users\CHEN\AppData\Local\Temp\tp33e4826c_b6a8_43bc_a927_62597093682b.png</param.screenshot>
+    <param.version>3.0</param.version>
     <param.products.name />
     <param.products.id />
     <param.products.version />
@@ -24,7 +24,6 @@
       <param.email />
       <param.company />
       <param.summary />
-      <param.description />
       <param.products.name />
       <param.products.id />
       <param.products.version />
@@ -64,15 +63,19 @@
     <fileset.resources />
     <fileset.package />
     <build-deliverables>
-      <file location="D:\hust_item\定制磁场\magcode_app" name="mag_cuboid" optional="false">D:\hust_item\定制磁场\magcode_app\mag_cuboid</file>
+      <file location="D:\mag_cuboid-main" name="mag_cuboid-main" optional="false">D:\mag_cuboid-main\mag_cuboid-main</file>
     </build-deliverables>
     <workflow />
     <matlab>
-      <root>D:\software\matlab2020</root>
+      <root>F:\Program Files\Polyspace\R2021a</root>
       <toolboxes>
         <toolbox name="matlabcoder" />
+        <toolbox name="embeddedcoder" />
+        <toolbox name="gpucoder" />
         <toolbox name="fixedpoint" />
+        <toolbox name="matlabhdlcoder" />
         <toolbox name="neuralnetwork" />
+        <toolbox name="polyspacebugfinder" />
       </toolboxes>
       <toolbox>
         <matlabcoder>
@@ -80,14 +83,34 @@
         </matlabcoder>
       </toolbox>
       <toolbox>
+        <embeddedcoder>
+          <enabled>true</enabled>
+        </embeddedcoder>
+      </toolbox>
+      <toolbox>
+        <gpucoder>
+          <enabled>true</enabled>
+        </gpucoder>
+      </toolbox>
+      <toolbox>
         <fixedpoint>
           <enabled>true</enabled>
         </fixedpoint>
       </toolbox>
       <toolbox>
+        <matlabhdlcoder>
+          <enabled>true</enabled>
+        </matlabhdlcoder>
+      </toolbox>
+      <toolbox>
         <neuralnetwork>
           <enabled>true</enabled>
         </neuralnetwork>
+      </toolbox>
+      <toolbox>
+        <polyspacebugfinder>
+          <enabled>true</enabled>
+        </polyspacebugfinder>
       </toolbox>
     </matlab>
     <platform>

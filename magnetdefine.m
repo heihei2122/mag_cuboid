@@ -31,7 +31,7 @@ if strcmp(mag.type,'coil')
 end
 
 if isfield(mag,'grade')
-  if isfield(mag,'magn')
+  if isfield(mag,'magn')                                                    %磁铁等级或者充磁强度
     error('Cannot specify both ''magn'' and ''grade''.')
   else
     mag.magn = grade2magn(mag.grade);
@@ -39,8 +39,8 @@ if isfield(mag,'grade')
 end
 
 mag = attempt3Mvector(mag,'lever');
-mag = make_unit_vector(mag,'magdir');
-mag = make_unit_vector(mag,'dir');
+mag = make_unit_vector(mag,'magdir');                                       %磁化方向
+mag = make_unit_vector(mag,'dir');                                          %
 
 % defaults
 
