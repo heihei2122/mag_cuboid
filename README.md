@@ -22,3 +22,4 @@ https://github.com/wspr/matlab-euler-angles
 ### 允许通过代码产生大规模磁体阵列
 1. 打开gui，先使用保存一个.mat数据文件；
 2. 编辑.mat数据文件，使用magnetdefine.m函数创建磁体数据结构体，并添加到cuboid_cell中，第一列为定子，第二列为动子。
+### 未考虑磁体相对磁导率的影响，因此计算存在较大误差
